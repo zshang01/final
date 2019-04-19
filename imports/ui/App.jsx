@@ -54,7 +54,7 @@ export default class App extends Component {
 				console.log(content);
 				this.setState({
 					link: content.links,
-					content: content.text.\*
+					content: content.text['*']
 				})
 				console.log(this.state.link)
 				console.log(this.state.content)
@@ -72,11 +72,17 @@ export default class App extends Component {
 
 
     showContent(){
-		return this.state.content;
+
+		return this.state.content.replace(/<\s*br[^>]?>/,'\n')
+            .replace(/(<([^>]+)>)/g, "");
     }
 
 	showLink(){
-		
+		return this.state.link.map(c => 
+			<li key={c['*'].toString()}>
+			    {c['*']}
+			</li>
+			)
 	}
   	
   	
