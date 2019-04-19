@@ -1,6 +1,5 @@
 import Methods from '../api/Methods.js'
 import React, { Component } from "react";
-//import AccountsUIWrapper from './AccountsUIWrapper.js';
 import { Meteor } from "meteor/meteor";
 export default class App extends Component {
 
@@ -20,7 +19,7 @@ export default class App extends Component {
 	    this.showLink = this.showLink.bind(this);
 	    this.showContent = this.showContent.bind(this);
 	    this.showPublication = this.showPublication.bind(this);
-	    this.handleSearch = this.handleSearch.bind(this);
+	    
 	    
 	    this.setText = element =>{
 	    	this.textInput = element;
@@ -99,6 +98,7 @@ export default class App extends Component {
 	}
   	
   	handleSearch(name){
+  		console.log(name)
   		console.log(name.c)
 		Meteor.call("get.search", name.c, (err, content)=>{
 			if(err) alert(err);
@@ -116,7 +116,7 @@ export default class App extends Component {
   	showHistory(){
   		return this.state.History.map(c => 
 			<li key={c.toString()}>
-				<button value={c} onClick={this.handleSearch({c})}> {c} </button>		    
+				<button value={c} onClick={this.handleSearch.bind(this,{c})}> {c} </button>		    
 			</li>
 			)
   	}
