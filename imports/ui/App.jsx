@@ -12,6 +12,12 @@ export default class App extends Component {
 	    };
 	    
 	    this.show = this.show.bind(this);
+	    this.textInput = null;
+	    this.handleSubmit = this.handleSubmit.bind(this);
+
+	    this.setText = element =>{
+	    	this.textInput = element;
+	    };
 	}
 
 	renderpics(){
@@ -33,13 +39,45 @@ export default class App extends Component {
 			</li>
 			)
 	}
+
+	handleSubmit(event) {
+		event.preventDefault();
+		const search = this.textInput.value;
+		console.log(search)
+		Meteor.call("get.search", this.textInput.value, (err, content)=>{
+			if(err) alert(err);
+			if(content){
+				console.log("get data" + content);
+			}
+		})
+	}
+    	
+    	
+
+  	
+  	
+
 	render(){
 		return(
 
 			<div>
-				<h1>App Component</h1>
-				<button aria-label='Get started' className='btn' onClick={this.renderpics.bind(this)}>Display Information about this Song</button>
-				{this.show()}
+				<h1>Wiki Search</h1>
+				<form onSubmit={this.handleSubmit} className="form-inline">
+					<div className="row">
+						<label>
+						<input
+			                name="search"
+			                type="text"
+			                ref={this.setText}
+			                className="form-control col mr-3"
+			                id="search"
+			                size="100"
+			                placeholder="Search"
+			              />
+			            <input type="submit" value="Submit"/>
+			            </label>
+					</div>
+				</form>
 			</div>
 
 
