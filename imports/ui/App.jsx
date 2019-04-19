@@ -8,13 +8,17 @@ export default class App extends Component {
     	super(props);
     	this.state = {
 	    	loading: false,
-	    	pics: []
+	    	link: [],
+	    	content: "",
+	    	data: ""
 	    };
 	    
 	    this.show = this.show.bind(this);
 	    this.textInput = null;
 	    this.handleSubmit = this.handleSubmit.bind(this);
-
+	    this.showLink = this.showLink.bind(this);
+	    this.showContent = this.showContent.bind(this);
+	    this.showPublication = this.showPublication.bind(this);
 	    this.setText = element =>{
 	    	this.textInput = element;
 	    };
@@ -47,13 +51,33 @@ export default class App extends Component {
 		Meteor.call("get.search", this.textInput.value, (err, content)=>{
 			if(err) alert(err);
 			if(content){
-				console.log("get data" + content);
+				console.log(content);
+				this.setState({
+					link: content.links,
+					content: content.text.\*
+				})
+				console.log(this.state.link)
+				console.log(this.state.content)
 			}
 		})
 	}
     	
     	
 
+
+
+	showPublication(){
+
+	}
+
+
+    showContent(){
+		return this.state.content;
+    }
+
+	showLink(){
+		
+	}
   	
   	
 
@@ -78,6 +102,17 @@ export default class App extends Component {
 			            </label>
 					</div>
 				</form>
+
+
+				<h1>links</h1>
+				{this.showLink()}
+
+				<h1>Contents</h1>
+				{this.showContent()}
+
+
+				<h1>Publication</h1>
+				{this.showPublication()}
 			</div>
 
 
