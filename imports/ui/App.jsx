@@ -10,7 +10,8 @@ export default class App extends Component {
 	    	loading: false,
 	    	link: [],
 	    	content: "",
-	    	data: ""
+	    	data: "",
+	    	History: []
 	    };
 	    
 	    this.show = this.show.bind(this);
@@ -19,6 +20,8 @@ export default class App extends Component {
 	    this.showLink = this.showLink.bind(this);
 	    this.showContent = this.showContent.bind(this);
 	    this.showPublication = this.showPublication.bind(this);
+	    this.handleSearch = this.handleSearch.bind(this);
+	    
 	    this.setText = element =>{
 	    	this.textInput = element;
 	    };
@@ -53,7 +56,7 @@ export default class App extends Component {
 			if(content){
 				console.log(content);
 				this.setState({
-					link: content.links,
+					link: content.categories,
 					content: content.text['*']
 				})
 				console.log(this.state.link)
@@ -64,27 +67,59 @@ export default class App extends Component {
     	
     	
 
-
+	
 
 	showPublication(){
-
+		
 	}
 
 
     showContent(){
 
-		return this.state.content.replace(/<\s*br[^>]?>/,'\n')
-            .replace(/(<([^>]+)>)/g, "");
+		return <span dangerouslySetInnerHTML={{ __html: this.state.content }} />
     }
 
+	onClick(value){
+		
+		const cur = this.state.link[value]['*'];
+		
+		let pre = this.state.History;
+		pre.push(cur)
+		this.setState({
+			History: pre 
+		})
+
+	}
 	showLink(){
-		return this.state.link.map(c => 
+		return this.state.link.map( (c, i) => 
 			<li key={c['*'].toString()}>
-			    {c['*']}
+				<button value={c['*']} onClick={this.onClick.bind(this, i)}> {c['*']} </button>		    
 			</li>
 			)
 	}
   	
+  	handleSearch(name){
+  		console.log(name.c)
+		Meteor.call("get.search", name.c, (err, content)=>{
+			if(err) alert(err);
+			if(content){
+				console.log(content);
+				this.setState({
+					link: content.categories,
+					content: content.text['*']
+				})
+				console.log(this.state.link)
+				console.log(this.state.content)
+			}
+		})
+	}
+  	showHistory(){
+  		return this.state.History.map(c => 
+			<li key={c.toString()}>
+				<button value={c} onClick={this.handleSearch({c})}> {c} </button>		    
+			</li>
+			)
+  	}
   	
 
 	render(){
@@ -108,7 +143,9 @@ export default class App extends Component {
 			            </label>
 					</div>
 				</form>
-
+				
+				<h1>History</h1>
+				{this.showHistory()}
 
 				<h1>links</h1>
 				{this.showLink()}
