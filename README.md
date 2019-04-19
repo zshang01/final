@@ -8,6 +8,8 @@ Try to finish the Final.
 
 I choose to do the one hour extension.
 
+The creative part is you can actually click on the tab on history and it will gone. 
+
 
 ## Tech
 
