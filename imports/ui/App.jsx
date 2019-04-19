@@ -87,6 +87,18 @@ export default class App extends Component {
 		this.setState({
 			History: pre 
 		})
+		Meteor.call("get.search", cur, (err, content)=>{
+			if(err) alert(err);
+			if(content){
+				console.log(content);
+				this.setState({
+					link: content.categories,
+					content: content.text['*']
+				})
+				console.log(this.state.link)
+				console.log(this.state.content)
+			}
+		})
 
 	}
 	showLink(){
@@ -100,6 +112,7 @@ export default class App extends Component {
   	handleSearch(name){
   		console.log(name)
   		console.log(name.c)
+		
 		Meteor.call("get.search", name.c, (err, content)=>{
 			if(err) alert(err);
 			if(content){
